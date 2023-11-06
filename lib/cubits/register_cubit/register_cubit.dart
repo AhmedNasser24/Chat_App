@@ -14,7 +14,7 @@ class RegisterCubit extends Cubit<RegisterState> {
         email: email,
         password: password,
       );
-      emit(RegisterSucceed()) ;
+      emit(RegisterSucceed());
     } on FirebaseAuthException catch (e) {
       if (e.code == 'invalid-email') {
         emit(RegisterFailure(
@@ -29,7 +29,16 @@ class RegisterCubit extends Cubit<RegisterState> {
         emit(RegisterFailure('unknown input'));
       }
     } catch (e) {
-      emit(RegisterFailure('unknown exception'));
+      emit(
+        RegisterFailure('unknown exception'),
+      );
     }
+  }
+
+  @override
+  void onChange(Change<RegisterState> change) {
+    super.onChange(change);
+  
+    print(change) ;
   }
 }

@@ -2,16 +2,14 @@ import 'dart:developer';
 
 import 'package:chat_app/constants.dart';
 
-import 'package:chat_app/cubits/register_cubit/register_cubit.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+import '../cubits/auto_cubit/auth_cubit.dart';
 import '../helper/show_snack_bar.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/custom_circle_avatar.dart';
 import '../widgets/custom_textfield.dart';
-
 
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
@@ -32,18 +30,16 @@ class _RegisterViewState extends State<RegisterView> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<RegisterCubit, RegisterState>(
+    return BlocConsumer<AuthCubit, AuthState>(
       listener: (context, state) {
-        if ( state is RegisterSucceed){
-          isLoading = false ;
-          Navigator.pop(context) ;
-          
-        }else if ( state is RegisterLoading){
-          isLoading = true ;
-        }else if ( state is RegisterFailure){
-          isLoading = false ;
-          showSnackBar(context, state.errorMessage) ;
-          
+        if (state is RegisterSucceed) {
+          isLoading = false;
+          Navigator.pop(context);
+        } else if (state is RegisterLoading) {
+          isLoading = true;
+        } else if (state is RegisterFailure) {
+          isLoading = false;
+          showSnackBar(context, state.errorMessage);
         }
       },
       builder: (context, state) {
@@ -119,7 +115,7 @@ class _RegisterViewState extends State<RegisterView> {
                         text: 'Register',
                         onTap: () {
                           if (_key.currentState!.validate()) {
-                            BlocProvider.of<RegisterCubit>(context)
+                            BlocProvider.of<AuthCubit>(context)
                                 .registerUser(email: email, password: password);
                           }
                         },
@@ -160,5 +156,4 @@ class _RegisterViewState extends State<RegisterView> {
       },
     );
   }
-
 }

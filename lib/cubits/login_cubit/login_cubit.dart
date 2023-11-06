@@ -31,4 +31,11 @@ class LoginCubit extends Cubit<LoginState> {
       emit(LoginFailure(errorMessage: 'unknown exception'));
     }
   }
+
+  @override
+  void onChange(Change<LoginState> change) {
+    super.onChange(change);
+  
+    print(change) ;
+  }
 }

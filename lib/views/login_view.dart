@@ -7,11 +7,10 @@ import 'package:chat_app/widgets/custom_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import '../cubits/login_cubit/login_cubit.dart';
+import '../bloc/auth_bloc/auth_bloc.dart';
 import '../helper/show_snack_bar.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/custom_circle_avatar.dart';
-
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -27,19 +26,19 @@ class _LoginViewState extends State<LoginView> {
   bool isLoading = false;
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<LoginCubit, LoginState>(
+    return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
-        if ( state is LoginSucceed){
-          isLoading = false ;
-          Navigator.pushNamed(context, ChatView.id , arguments: email) ;
-        }else if (state is LoginLoading){
-          isLoading = true ;
-        }else if (state is LoginFailure){
-          showSnackBar(context, state.errorMessage) ;
-          isLoading = false ;
+        if (state is LoginSucceed) {
+          isLoading = false;
+          Navigator.pushNamed(context, ChatView.id, arguments: email);
+        } else if (state is LoginLoading) {
+          isLoading = true;
+        } else if (state is LoginFailure) {
+          showSnackBar(context, state.errorMessage);
+          isLoading = false;
         }
       },
-      builder :(context, state) => ModalProgressHUD(
+      builder: (context, state) => ModalProgressHUD(
         inAsyncCall: isLoading,
         child: Scaffold(
           backgroundColor: kPrimaryColor,
@@ -109,10 +108,9 @@ class _LoginViewState extends State<LoginView> {
                     ),
                     CustomButton(
                       text: 'Login',
-                      onTap: () async {
+                      onTap: () {
                         if (_loginkey.currentState!.validate()) {
-                          BlocProvider.of<LoginCubit>(context)
-                              .loginUser(email: email, password: password);
+                          BlocProvider.of<AuthBloc>(context).add(LoginEvent(email: email, password: password));
                         }
                       },
                     ),
