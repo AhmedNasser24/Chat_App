@@ -35,7 +35,7 @@ class ChatCubit extends Cubit<ChatState> {
         }
         emit(ChatSucceed());
         
-        log("ahmed nasser ibrahiem");
+        
       },
       onError: (error) {
         log("Error fetching messages: $error");

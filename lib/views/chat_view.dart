@@ -23,9 +23,9 @@ class ChatView extends StatelessWidget {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: kPrimaryColor,
-        title: Row(
+        title:const Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
+          children:  [
             CircleAvatar(
               maxRadius: 20,
               foregroundImage: AssetImage(kLogo),
